@@ -951,7 +951,7 @@ $('#continueAsGuest').click(function (event) {
         <p>Gym - <span><i class="fa-solid fa-dumbbell"></i></span></i></p>
       </div>
       <div class="grid-item-meals">
-        <h4>Meal Options</h4>
+        <h4>Meal Options P/P</h4>
         <div class="checkbox-meal">
           <input type="checkbox" class="food-checkbox" id="breakfast" name="breakfast" value="breakfast" data-price="${properties[selectedId - 1].breakfast}">
           <label class="meals" for="breakfast">Breakfast P/D - ${properties[selectedId - 1].breakfast}</label>
