@@ -678,32 +678,49 @@ $(document).ready(function () {
 
 
 
-  // ========= SIGN UP OR LOGIN FORM REGEX ============
+// ========= SIGN UP, CONTINUE AS GUEST OR LOGIN FORM REGEX ============
 
-  $('#submitButton').click(function (event) {
-    event.preventDefault();
+$('#submitButton').click(function (event) {
+  event.preventDefault();
 
-    // Regular Expressions
-    const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  // Regular Expressions
+  const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-    // Input Elements
-    const username = $('#username').val();
-    const email = $('#email').val();
-    const password = $('#password').val();
+  // Input Elements
+  const username = $('#username').val();
+  const email = $('#email').val();
+  const password = $('#password').val();
 
-    if (!usernameRegex.test(username)) {
-      $('#formMessage').html('<p>Invalid username. Must be 3-15 characters long and contain only letters, numbers, and underscores.</p>');
-    } else if (!emailRegex.test(email)) {
-      $('#formMessage').html('<p>Invalid email format</p>');
-    } else if (!passwordRegex.test(password)) {
-      $('#formMessage').html('<p>Password must be at least 8 characters long and include at least one uppercase letter and one number.</p>');
-    } else {
-      $('#formMessage').html('');
-      fullpage_api.moveTo(2, 0);
-    }
-  });
+  if (!usernameRegex.test(username)) {
+    $('#formMessage').html('<p>Invalid username. Must be 3-15 characters long and contain only letters, numbers, and underscores.</p>');
+  } else if (!emailRegex.test(email)) {
+    $('#formMessage').html('<p>Invalid email format</p>');
+  } else if (!passwordRegex.test(password)) {
+    $('#formMessage').html('<p>Password must be at least 8 characters long and include at least one uppercase letter and one number.</p>');
+  } else {
+    $('#formMessage').html('');
+    fullpage_api.moveTo(2, 0);
+  }
+});
+
+$('#continueAsGuest').click(function (event) {
+  event.preventDefault();
+
+  // Regular Expressions
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Input Element
+  const email = $('#email').val();
+
+  if (!emailRegex.test(email)) {
+    $('#formMessage').html('<p>Invalid email format</p>');
+  } else {
+    $('#formMessage').html('');
+    fullpage_api.moveTo(2, 0);
+  }
+});
 
   // ============= END OF FORM REGEX =================
 
