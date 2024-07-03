@@ -638,7 +638,7 @@ $(document).ready(function () {
     autoScrolling: true,
     scrollHorizontally: true,
     controlArrows: false,
-    keyboardScrolling:false,
+    keyboardScrolling: false,
   });
 
   // Mapbox Init:
@@ -657,6 +657,7 @@ $(document).ready(function () {
       .addTo(map);
   }
 
+  // Move Between Fullpage
 
   $.fn.fullpage.setAllowScrolling(false);
 
@@ -664,63 +665,61 @@ $(document).ready(function () {
     fullpage_api.moveTo(number);
   }
 
-  $('#goToSection1').click(function () {
-    moveToSection(1);
-  });
-
-  $('#goToSection2').click(function () {
-    moveToSection(2);
-  });
-
   $('.back-button').click(function () {
     moveToSection(3);
   });
 
 
 
-// ========= SIGN UP, CONTINUE AS GUEST OR LOGIN FORM REGEX ============
+  // ========= SIGN UP, CONTINUE AS GUEST OR LOGIN FORM REGEX ============
 
-$('#submitButton').click(function (event) {
-  event.preventDefault();
+  $('#submitButton').click(function (event) {
+    event.preventDefault();
 
-  // Regular Expressions
-  const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    // Regular Expressions
+    const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-  // Input Elements
-  const username = $('#username').val();
-  const email = $('#email').val();
-  const password = $('#password').val();
+    // Input Elements
+    const username = $('#username').val();
+    const email = $('#email').val();
+    const password = $('#password').val();
 
-  if (!usernameRegex.test(username)) {
-    $('#formMessage').html('<p>Invalid username. Must be 3-15 characters long and contain only letters, numbers, and underscores.</p>');
-  } else if (!emailRegex.test(email)) {
-    $('#formMessage').html('<p>Invalid email format</p>');
-  } else if (!passwordRegex.test(password)) {
-    $('#formMessage').html('<p>Password must be at least 8 characters long and include at least one uppercase letter and one number.</p>');
-  } else {
-    $('#formMessage').html('');
-    fullpage_api.moveTo(2, 0);
-  }
-});
+    if (!usernameRegex.test(username)) {
+      $('#formMessage').html('<p>Invalid username. Must be 3-15 characters long and contain only letters, numbers, and underscores.</p>');
 
-$('#continueAsGuest').click(function (event) {
-  event.preventDefault();
+    } else if (!emailRegex.test(email)) {
+      $('#formMessage').html('<p>Invalid email format</p>');
 
-  // Regular Expressions
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    } else if (!passwordRegex.test(password)) {
+      $('#formMessage').html('<p>Password must be at least 8 characters long and include at least one uppercase letter and one number.</p>');
 
-  // Input Element
-  const email = $('#email').val();
+    } else {
+      $('#formMessage').html('');
+      fullpage_api.moveTo(2, 0);
+    }
+  });
 
-  if (!emailRegex.test(email)) {
-    $('#formMessage').html('<p>Invalid email format</p>');
-  } else {
-    $('#formMessage').html('');
-    fullpage_api.moveTo(2, 0);
-  }
-});
+  // Continue As Guest
+
+  $('#continueAsGuest').click(function (event) {
+    event.preventDefault();
+
+    // Regular Expressions
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Input Element
+    const email = $('#email').val();
+
+    if (!emailRegex.test(email)) {
+      $('#formMessage').html('<p>Invalid email format</p>');
+
+    } else {
+      $('#formMessage').html('');
+      fullpage_api.moveTo(2, 0);
+    }
+  });
 
   // ============= END OF FORM REGEX =================
 
@@ -742,6 +741,8 @@ $('#continueAsGuest').click(function (event) {
 
   populateLocationOptions();
 
+  // Validation Filter
+
   function validateFilters() {
     let isValid = true;
     let errorMessage = "";
@@ -750,23 +751,28 @@ $('#continueAsGuest').click(function (event) {
       isValid = false;
       errorMessage += "Please select a location.<br>";
     }
+
     if ($("#type").val() === "") {
       isValid = false;
       errorMessage += "Please select the type.<br>";
     }
+
     const guests = parseInt($("#guests").val(), 10);
     if (isNaN(guests) || guests <= 0) {
       isValid = false;
       errorMessage += "Please select a valid number of guests.<br>";
     }
+
     if ($("#bedrooms").val() === "") {
       isValid = false;
       errorMessage += "Please select the minimum number of bedrooms.<br>";
     }
+
     if ($('#startDate').val() === "") {
       isValid = false;
       errorMessage += "Please select a start date.<br>";
     }
+
     if ($('#endDate').val() === "") {
       isValid = false;
       errorMessage += "Please select an end date.<br>";
@@ -774,6 +780,7 @@ $('#continueAsGuest').click(function (event) {
 
     if (!isValid) {
       $('#error-message').html(errorMessage).show();
+
     } else {
       $('#error-message').hide();
     }
@@ -790,7 +797,7 @@ $('#continueAsGuest').click(function (event) {
     dateFormat: "dd/mm/yy"
   });
 
-  // Search Button Click:
+  // Search Button:
   $("#searchBtn").click(function (e) {
     e.preventDefault();
     if (validateFilters()) {
@@ -800,6 +807,7 @@ $('#continueAsGuest').click(function (event) {
   });
 
   function filterAndDisplayProperties() {
+
     // Get value from filters:
     const location = $('#location').val();
     const type = $('#type').val() || "any";
@@ -820,6 +828,8 @@ $('#continueAsGuest').click(function (event) {
 
     displayProperties(filteredProperties);
   }
+
+  // Calculates Days
 
   function calculateDays() {
     const startDate = $("#startDate").datepicker("getDate");
@@ -868,6 +878,7 @@ $('#continueAsGuest').click(function (event) {
 
   function displayProperties(array) {
     $('#results').html('');
+
     if (array.length === 0) {
       $('#results').html('<p>No properties found.</p>');
     } else {
@@ -927,10 +938,12 @@ $('#continueAsGuest').click(function (event) {
       <div class="grid-item-img">
         <img src="${properties[selectedId - 1].image}" alt="">
       </div>
+
       <div class="grid-item-description">
         <h4>Overview</h4> <br>
         <p>${properties[selectedId - 1].description}</p>
       </div>
+
       <div class="grid-item-house-details">
         <div class="card-details">
           <h2>${properties[selectedId - 1].name}</h2>
@@ -943,6 +956,7 @@ $('#continueAsGuest').click(function (event) {
           <h3>Price: ${properties[selectedId - 1].price}</h3>
         </div>
       </div>
+
       <div class="grid-item-ammenities">
         <h4>Amenities</h4>
         <p>Wifi - <span><i class="fa-solid fa-wifi"></span></i></p>
@@ -950,6 +964,7 @@ $('#continueAsGuest').click(function (event) {
         <p>Pool - <span><i class="fa-solid fa-water-ladder"></i></span></i></p>
         <p>Gym - <span><i class="fa-solid fa-dumbbell"></i></span></i></p>
       </div>
+
       <div class="grid-item-meals">
         <h4>Meal Options P/P</h4>
         <div class="checkbox-meal">
@@ -968,6 +983,7 @@ $('#continueAsGuest').click(function (event) {
           <p id="mealPrice">Price Total Per Day: 0.00 </p>
         </div>
       </div>
+
       <div class="grid-item-map" id="map"></div>
       <div class="grid-item-things-to-do">
         <h4>Things to do</h4>
@@ -977,6 +993,7 @@ $('#continueAsGuest').click(function (event) {
         <p>${properties[selectedId - 1].thing4}</p>
         <p>${properties[selectedId - 1].thing5}</p>
       </div>
+
       <div class="booking-price-container">
         <div class="total-price">
           <h2 id="totalCost">Total Cost:</h2>
@@ -985,7 +1002,7 @@ $('#continueAsGuest').click(function (event) {
         <button class="book-now" id="book-now" data-id="${[selectedId]}">Book Now</button>
       </div>
     `;
-    
+
     const longitude = properties[selectedId - 1].longitude;
     const latitude = properties[selectedId - 1].latitude;
 
@@ -1041,10 +1058,12 @@ $('#continueAsGuest').click(function (event) {
         const breakfastPrice = parseFloat($('#breakfast').data('price').replace('$', ''));
         totalPrice += breakfastPrice * diffDays * guests;
       }
+
       if (lunchChecked) {
         const lunchPrice = parseFloat($('#lunch').data('price').replace('$', ''));
         totalPrice += lunchPrice * diffDays * guests;
       }
+
       if (dinnerChecked) {
         const dinnerPrice = parseFloat($('#dinner').data('price').replace('$', ''));
         totalPrice += dinnerPrice * diffDays * guests;
